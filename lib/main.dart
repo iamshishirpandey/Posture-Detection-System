@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 /// The list of camera types (mainly including: front and back)
 List<CameraDescription> cameras = [];
-void main() {
+void main() async {
   try {
     // To load the cameras before the app is initialized
     WidgetsFlutterBinding.ensureInitialized();
