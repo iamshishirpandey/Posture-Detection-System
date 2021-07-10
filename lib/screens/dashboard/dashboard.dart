@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/all.dart';
 import 'package:physiotherapy/authentication/auth_client.dart';
 import 'package:physiotherapy/models/user.dart';
+import 'package:physiotherapy/providers/providers.dart';
 import 'package:physiotherapy/utils/database.dart';
 import 'package:physiotherapy/utils/ui_constants.dart';
 import 'package:physiotherapy/widgets/cards/card_items.dart';
 import 'package:physiotherapy/widgets/cards/card_main.dart';
 import 'package:physiotherapy/widgets/cards/card_section.dart';
 import 'package:physiotherapy/widgets/cards/custom_clipper.dart';
+import 'package:physiotherapy/widgets/dashboard_widgets/poses_list/poses_list_error_widget.dart';
+import 'package:physiotherapy/widgets/dashboard_widgets/poses_list/poses_list_initial_widget.dart';
+import 'package:physiotherapy/widgets/dashboard_widgets/poses_list/poses_list_loading_widget.dart';
+import 'package:physiotherapy/widgets/dashboard_widgets/poses_list/poses_list_widget.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -161,7 +167,37 @@ class _DashboardState extends State<Dashboard> {
                       ),
 
                       SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 16.0,
+                          right: 16.0,
+                          bottom: 30.0,
+                        ),
+                        child: Consumer(
+                          builder: (context, watch, child) {
+                            final state = watch(
+                              retrievePosesNotifierProvider.state,
+                            );
 
+                            return state.when(
+                              () {
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  context
+                                      .read(retrievePosesNotifierProvider)
+                                      .retrievePoses();
+                                });
+                                return PosesListInitialWidget();
+                              },
+                              retrieving: () => PosesListLoadingWidget(),
+                              retrieved: (poses) => PosesListWidget(
+                                poses: poses,
+                              ),
+                              error: (message) => PosesListErrorWidget(),
+                            );
+                          },
+                        ),
+                      ),
                       Container(
                         child: ListView(
                           scrollDirection: Axis.vertical,

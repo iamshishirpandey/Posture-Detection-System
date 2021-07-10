@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:physiotherapy/authentication/auth_client.dart';
+import 'package:physiotherapy/models/pose.dart';
 import 'package:physiotherapy/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -64,5 +65,20 @@ class Database {
     User userData = User.fromJson(userInfo.data);
 
     return userData;
+  }
+
+  /// For retrieving the poses from the database
+  Future<List<Pose>> retrievePoses() async {
+    QuerySnapshot posesQuery =
+        await documentReference.collection('poses').getDocuments();
+
+    List<Pose> poses = [];
+    print(posesQuery.documents);
+    posesQuery.documents.forEach((doc) {
+      print(doc.data);
+      poses.add(Pose.fromJson(doc.data));
+    });
+    print("POSE: ${poses}");
+    return poses;
   }
 }

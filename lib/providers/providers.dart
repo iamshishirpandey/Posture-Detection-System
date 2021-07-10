@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:physiotherapy/application/notifiers/auth_sign_in_notifier.dart';
+import 'package:physiotherapy/application/notifiers/retrieve_poses_notifier.dart';
 import 'package:physiotherapy/application/notifiers/store_user_data_notifier.dart';
 import 'package:physiotherapy/authentication/auth_client.dart';
 import 'package:physiotherapy/utils/database.dart';
@@ -15,4 +16,8 @@ final authSignInNotifierProvider = StateNotifierProvider(
 );
 final storeUserDataNotifierProvider = StateNotifierProvider(
   (ref) => StoreUserDataNotifier(ref.watch(databaseProvider)),
+);
+
+final retrievePosesNotifierProvider = StateNotifierProvider(
+  (ref) => RetrievePosesNotifier(ref.watch(databaseProvider)),
 );
