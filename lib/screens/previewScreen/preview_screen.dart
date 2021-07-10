@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:physiotherapy/models/pose.dart';
 import 'package:physiotherapy/screens/preview_screen/camera_preview_widget.dart';
 import 'package:physiotherapy/screens/preview_screen/rotate_to_landspace_widget.dart';
+import 'package:physiotherapy/utils/dialogFlow.dart';
 import 'package:physiotherapy/widgets/video_manager.dart';
 import 'package:tflite/tflite.dart';
 import 'package:wakelock/wakelock.dart';
@@ -165,7 +166,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
     initializeCameraController();
     VideoManager.initializeVideoController(videoUrl: widget.pose.videoUrl);
 
-    // Dialogflow.bodyVisible();
+    Dialogflow.bodyVisible();
 
     super.initState();
   }
