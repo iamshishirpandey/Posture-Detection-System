@@ -30,7 +30,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade50,
       body: Stack(
         children: <Widget>[
           ClipPath(
@@ -55,133 +55,153 @@ class _DashboardState extends State<Dashboard> {
           // BODY
           Padding(
             padding: EdgeInsets.all(Constants.paddingSide),
-            child: ListView(
-              children: <Widget>[
-                // Header - Greetings and Avatar
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        "Hello,\nPatient",
+            child: FutureBuilder(
+              future: userData,
+              builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return ListView(
+                    children: <Widget>[
+                      // Header - Greetings and Avatar
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "Hello,\n${snapshot.data.userName}",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          CircleAvatar(
+                              radius: 26.0,
+                              backgroundImage:
+                                  NetworkImage(snapshot.data.imageUrl))
+                        ],
+                      ),
+
+                      SizedBox(height: 50),
+                      Container(
+                        height: 80,
+                      ),
+                      // // Main Cards - Heartbeat and Blood Pressure
+                      Container(
+                        height: 140,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            CardMain(
+                              image: AssetImage('assets/icons/heartbeat.png'),
+                              title: "Hearbeat",
+                              value: "66",
+                              unit: "bpm",
+                              color: Constants.lightGreen,
+                            ),
+                            CardMain(
+                                image: AssetImage('assets/icons/blooddrop.png'),
+                                title: "Blood Pressure",
+                                value: "66/123",
+                                unit: "mmHg",
+                                color: Constants.lightYellow)
+                          ],
+                        ),
+                      ),
+
+                      // Section Cards - Daily Medication
+                      SizedBox(height: 50),
+
+                      Text(
+                        "YOUR DAILY MEDICATIONS",
                         style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white),
-                      ),
-                    ),
-                    CircleAvatar(
-                        radius: 26.0,
-                        backgroundImage:
-                            AssetImage('assets/icons/profile_picture.png'))
-                  ],
-                ),
-
-                SizedBox(height: 50),
-
-                // Main Cards - Heartbeat and Blood Pressure
-                Container(
-                  height: 140,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      CardMain(
-                        image: AssetImage('assets/icons/heartbeat.png'),
-                        title: "Hearbeat",
-                        value: "66",
-                        unit: "bpm",
-                        color: Constants.lightGreen,
-                      ),
-                      CardMain(
-                          image: AssetImage('assets/icons/blooddrop.png'),
-                          title: "Blood Pressure",
-                          value: "66/123",
-                          unit: "mmHg",
-                          color: Constants.lightYellow)
-                    ],
-                  ),
-                ),
-
-                // Section Cards - Daily Medication
-                SizedBox(height: 50),
-
-                Text(
-                  "YOUR DAILY MEDICATIONS",
-                  style: TextStyle(
-                    color: Constants.textPrimary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                SizedBox(height: 20),
-
-                Container(
-                    height: 125,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        CardSection(
-                          image: AssetImage('assets/icons/capsule.png'),
-                          title: "Metforminv",
-                          value: "2",
-                          unit: "pills",
-                          time: "6-7AM",
-                          isDone: false,
+                          color: Constants.textPrimary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
                         ),
-                        CardSection(
-                          image: AssetImage('assets/icons/syringe.png'),
-                          title: "Trulicity",
-                          value: "1",
-                          unit: "shot",
-                          time: "8-9AM",
-                          isDone: true,
-                        )
-                      ],
-                    )),
-
-                SizedBox(height: 50),
-
-                // Scheduled Activities
-                Text(
-                  "SCHEDULED ACTIVITIES",
-                  style: TextStyle(
-                      color: Constants.textPrimary,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold),
-                ),
-
-                SizedBox(height: 20),
-
-                Container(
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      CardItems(
-                        image: Image.asset(
-                          'assets/icons/Walking.png',
-                        ),
-                        title: "Walking",
-                        value: "750",
-                        unit: "steps",
-                        color: Constants.lightYellow,
-                        progress: 0,
                       ),
-                      CardItems(
-                        image: Image.asset(
-                          'assets/icons/Swimming.png',
+
+                      SizedBox(height: 20),
+
+                      Container(
+                          height: 125,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: <Widget>[
+                              CardSection(
+                                image: AssetImage('assets/icons/capsule.png'),
+                                title: "Metforminv",
+                                value: "2",
+                                unit: "pills",
+                                time: "6-7AM",
+                                isDone: false,
+                              ),
+                              CardSection(
+                                image: AssetImage('assets/icons/syringe.png'),
+                                title: "Trulicity",
+                                value: "1",
+                                unit: "shot",
+                                time: "8-9AM",
+                                isDone: true,
+                              )
+                            ],
+                          )),
+
+                      SizedBox(height: 50),
+
+                      // Scheduled Activities
+                      Text(
+                        "SCHEDULED ACTIVITIES",
+                        style: TextStyle(
+                            color: Constants.textPrimary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold),
+                      ),
+
+                      SizedBox(height: 20),
+
+                      Container(
+                        child: ListView(
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                print("Pressed");
+                              },
+                              child: CardItems(
+                                image: Image.asset(
+                                  'assets/icons/sukhasana.png',
+                                  height: 35,
+                                  width: 35,
+                                ),
+                                title: "Sukhasana",
+                                value: "Easy",
+                                unit: "",
+                                color: Constants.lightYellow,
+                                progress: 0,
+                              ),
+                            ),
+                            CardItems(
+                              image: Image.asset(
+                                'assets/icons/Swimming.png',
+                              ),
+                              title: "Head Flip",
+                              value: "30",
+                              unit: "mins",
+                              color: Constants.lightBlue,
+                              progress: 0,
+                            ),
+                          ],
                         ),
-                        title: "Swimming",
-                        value: "30",
-                        unit: "mins",
-                        color: Constants.lightBlue,
-                        progress: 0,
                       ),
                     ],
-                  ),
-                ),
-              ],
+                  );
+                }
+              },
             ),
           )
         ],

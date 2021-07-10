@@ -80,9 +80,17 @@ class CardItems extends StatelessWidget {
                       ),
                       SizedBox(height: 15),
                       (progress == 0 || progress == null)
-                          ? Text('Not started',
-                              style: TextStyle(
-                                  fontSize: 15, color: Constants.textPrimary))
+                          ? Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: Constants.lightGreen,
+                                  borderRadius: BorderRadius.circular(6.0)),
+                              child: Text('Start Exercising',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Constants.textPrimary)),
+                            )
                           : Container(
                               height: 6,
                               decoration: new BoxDecoration(

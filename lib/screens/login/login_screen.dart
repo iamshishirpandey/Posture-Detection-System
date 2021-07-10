@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(
-                          RouteConstants.DASHBOARD, (_) => false)
+                          RouteConstants.HOMEPAGE, (_) => false)
                       .then((_) {
                     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
                       statusBarColor: Colors.yellowAccent,
