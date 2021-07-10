@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:physiotherapy/authentication/auth_client.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -10,6 +11,16 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            AuthenticationClient authenticationClient = AuthenticationClient();
+            authenticationClient.signOutGoogle();
+          },
+          child: Text("Logout"),
+        ),
+      ),
+    );
   }
 }

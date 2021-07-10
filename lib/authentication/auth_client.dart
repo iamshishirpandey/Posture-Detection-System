@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:physiotherapy/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -64,9 +66,17 @@ class AuthenticationClient {
   }
 
   Future<void> signOutGoogle() async {
-    await googleSignIn.signOut();
-    await _auth.signOut();
-
+    try {
+      await googleSignIn.signOut();
+      await _auth.signOut();
+    } catch (e) {
+      print("Error");
+      // ScaffoldMessenger.of(navigatorKey.currentContext).showSnackBar(
+      //   Authentication.customSnackBar(
+      //     content: 'Error signing out. Try again.',
+      //   ),
+      // );
+    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('auth', false);
 

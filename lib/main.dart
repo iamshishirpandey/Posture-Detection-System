@@ -1,9 +1,14 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/all.dart';
+import 'package:physiotherapy/utils/routes/onGeneratedRoutes.dart';
+import 'package:physiotherapy/utils/routes/routeConstants.dart';
 
 /// The list of camera types (mainly including: front and back)
 List<CameraDescription> cameras = [];
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   try {
     // To load the cameras before the app is initialized
@@ -12,7 +17,7 @@ void main() async {
   } on CameraException catch (e) {
     print('Error: ${e.code}\nError Message: ${e.description}');
   }
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +25,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MaterialApp(
+      title: 'Physio Therapy App',
+      debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
+      initialRoute: RouteConstants.LOGIN,
+      onGenerateRoute: onGenerateRoute,
+    );
   }
 }

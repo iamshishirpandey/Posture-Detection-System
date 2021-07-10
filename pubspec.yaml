@@ -33,10 +33,16 @@ dependencies:
   cloud_firestore: ^0.13.6
   google_sign_in: ^4.5.1
   shared_preferences: ^0.5.7+3
+  websafe_svg: ^1.1.0
+  flutter_riverpod: ^0.12.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  freezed: ^0.12.7
+  build_runner: ^1.11.1
+  json_serializable: ^3.5.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
