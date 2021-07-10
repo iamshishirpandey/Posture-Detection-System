@@ -64,7 +64,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     statusBarColor: AppColor.nameBackground,
                     statusBarIconBrightness: Brightness.dark,
                   ));
-
+                  context.read(storeUserDataNotifierProvider).storeData(
+                        uid: signedInUser.uid,
+                        imageUrl: signedInUser.photoUrl,
+                        userName: signedInUser.displayName,
+                      );
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(
                           RouteConstants.DASHBOARD, (_) => false)

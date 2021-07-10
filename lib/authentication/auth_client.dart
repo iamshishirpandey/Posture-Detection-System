@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:physiotherapy/main.dart';
+import 'package:physiotherapy/providers/providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,7 +29,7 @@ class AuthenticationClient {
     return null;
   }
 
-  Future<FirebaseUser> signInWithGoogle() async {
+  Future<FirebaseUser> signInWithGoogle(context) async {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
@@ -58,6 +59,13 @@ class AuthenticationClient {
     if (currentUser != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool('auth', true);
+
+      // context.read(storeUserDataNotifierProvider).storeData(
+      //       uid: currentUser.uid,
+      //       imageUrl: currentUser.photoUrl,
+      //       userName: currentUser.displayName,
+      //     );
+
       // authSignedIn = true;
       return user;
     }

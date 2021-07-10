@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:physiotherapy/authentication/auth_client.dart';
 import 'package:physiotherapy/models/user.dart';
 import 'package:physiotherapy/utils/database.dart';
+import 'package:physiotherapy/utils/ui_constants.dart';
+import 'package:physiotherapy/widgets/cards/card_items.dart';
+import 'package:physiotherapy/widgets/cards/card_main.dart';
+import 'package:physiotherapy/widgets/cards/card_section.dart';
+import 'package:physiotherapy/widgets/cards/custom_clipper.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -11,184 +16,175 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  String imageUrl;
-  String userName = "Shishir";
+  Future<User> userData = Database().retrieveUserInfo();
 
   @override
   void initState() {
     super.initState();
-    User userData = Database.user;
-    print(userData.userName);
+
     // imageUrl = userData.imageUrl;
     // userName = userData.userName;
   }
 
   @override
   Widget build(BuildContext context) {
+    double statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              elevation: 4,
-              centerTitle: false,
-              pinned: true,
-              title: Text(
-                'Hello, $userName ',
-                style: TextStyle(
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              actions: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(60),
-                          child: Container(
-                            color: Colors.black12,
-                            child: Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.black12,
-                                size: 26,
-                              ),
-                            ),
-                          ),
-                        ),
-                        imageUrl != null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(60),
-                                child: SizedBox(
-                                  width: 38.0,
-                                  child: Image.network(imageUrl),
-                                ),
-                              )
-                            : Container(),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+      body: Stack(
+        children: <Widget>[
+          ClipPath(
+            clipper: MyCustomClipper(clipType: ClipType.bottom),
+            child: Container(
+              color: Theme.of(context).accentColor,
+              height: Constants.headerHeight + statusBarHeight,
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                    child: Text(
-                      'Inhale the future, exhale the past.', // Update the quote from backend
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.5),
+          ),
+          Positioned(
+            right: -45,
+            top: -30,
+            child: ClipOval(
+              child: Container(
+                color: Colors.black.withOpacity(0.05),
+                height: 220,
+                width: 220,
+              ),
+            ),
+          ),
+
+          // BODY
+          Padding(
+            padding: EdgeInsets.all(Constants.paddingSide),
+            child: ListView(
+              children: <Widget>[
+                // Header - Greetings and Avatar
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        "Hello,\nPatient",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white),
                       ),
                     ),
+                    CircleAvatar(
+                        radius: 26.0,
+                        backgroundImage:
+                            AssetImage('assets/icons/profile_picture.png'))
+                  ],
+                ),
+
+                SizedBox(height: 50),
+
+                // Main Cards - Heartbeat and Blood Pressure
+                Container(
+                  height: 140,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      CardMain(
+                        image: AssetImage('assets/icons/heartbeat.png'),
+                        title: "Hearbeat",
+                        value: "66",
+                        unit: "bpm",
+                        color: Constants.lightGreen,
+                      ),
+                      CardMain(
+                          image: AssetImage('assets/icons/blooddrop.png'),
+                          title: "Blood Pressure",
+                          value: "66/123",
+                          unit: "mmHg",
+                          color: Constants.lightYellow)
+                    ],
                   ),
-                  SizedBox(height: 16.0),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.maxFinite,
-                          height: 2,
-                          color: Colors.black.withOpacity(0.2),
+                ),
+
+                // Section Cards - Daily Medication
+                SizedBox(height: 50),
+
+                Text(
+                  "YOUR DAILY MEDICATIONS",
+                  style: TextStyle(
+                    color: Constants.textPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                Container(
+                    height: 125,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        CardSection(
+                          image: AssetImage('assets/icons/capsule.png'),
+                          title: "Metforminv",
+                          value: "2",
+                          unit: "pills",
+                          time: "6-7AM",
+                          isDone: false,
                         ),
-                        SizedBox(height: 16.0),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.privacy_tip,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              'Privacy policy', // Update the quote from backend
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8.0),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.email,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              'Contact us', // Update the quote from backend
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8.0),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.info,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              'About', // Update the quote from backend
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            AuthenticationClient().signOutGoogle();
-                          },
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.info,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                              SizedBox(width: 8.0),
-                              Text(
-                                'LOGOUT', // Update the quote from backend
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        CardSection(
+                          image: AssetImage('assets/icons/syringe.png'),
+                          title: "Trulicity",
+                          value: "1",
+                          unit: "shot",
+                          time: "8-9AM",
+                          isDone: true,
+                        )
                       ],
-                    ),
+                    )),
+
+                SizedBox(height: 50),
+
+                // Scheduled Activities
+                Text(
+                  "SCHEDULED ACTIVITIES",
+                  style: TextStyle(
+                      color: Constants.textPrimary,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold),
+                ),
+
+                SizedBox(height: 20),
+
+                Container(
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      CardItems(
+                        image: Image.asset(
+                          'assets/icons/Walking.png',
+                        ),
+                        title: "Walking",
+                        value: "750",
+                        unit: "steps",
+                        color: Constants.lightYellow,
+                        progress: 0,
+                      ),
+                      CardItems(
+                        image: Image.asset(
+                          'assets/icons/Swimming.png',
+                        ),
+                        title: "Swimming",
+                        value: "30",
+                        unit: "mins",
+                        color: Constants.lightBlue,
+                        progress: 0,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

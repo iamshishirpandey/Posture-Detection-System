@@ -13,8 +13,6 @@ class StoreUserDataNotifier extends StateNotifier<StoreUserDataState> {
     @required String uid,
     @required String imageUrl,
     @required String userName,
-    @required String gender,
-    @required String age,
   }) async {
     try {
       state = StoreUserDataState.storing();
@@ -22,12 +20,12 @@ class StoreUserDataNotifier extends StateNotifier<StoreUserDataState> {
         uid: uid,
         imageUrl: imageUrl,
         userName: userName,
-        gender: gender,
       );
       print('USER DATA: $userData');
       state = StoreUserDataState.stored(userData);
     } catch (error) {
       state = StoreUserDataState.error(message: 'Error storing user data');
     }
+    return;
   }
 }

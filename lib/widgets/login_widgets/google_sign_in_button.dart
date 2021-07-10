@@ -15,7 +15,7 @@ class GoogleSignInButton extends StatelessWidget {
         splashColor: Colors.grey[100],
         color: Colors.grey[100],
         onPressed: () =>
-            context.read(authSignInNotifierProvider).googleSignIn(),
+            context.read(authSignInNotifierProvider).googleSignIn(context),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         highlightElevation: 0,
         borderSide: BorderSide(color: Colors.black),

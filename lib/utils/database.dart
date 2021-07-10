@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:physiotherapy/authentication/auth_client.dart';
 import 'package:physiotherapy/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,6 +51,17 @@ class Database {
         prefs.setBool('details_uploaded', true);
       }).catchError((e) => print(e));
     }
+
+    return userData;
+  }
+
+  /// For retrieving the user info from the database
+  Future<User> retrieveUserInfo() async {
+    String uid = AuthenticationClient.presentUser.uid;
+    DocumentSnapshot userInfo =
+        await documentReference.collection('users').document(uid).get();
+
+    User userData = User.fromJson(userInfo.data);
 
     return userData;
   }
