@@ -4,8 +4,22 @@ import 'dart:typed_data';
 import 'package:dialog_flowtter/dialog_flowtter.dart' as df;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:audiofileplayer/audiofileplayer.dart' as af;
 
 class Dialogflow {
+  static stt.SpeechToText speech = stt.SpeechToText();
+  static bool isSpeechAvailable;
+
+  static Future<bool> initializeSpeech() async {
+    bool available = await speech.initialize(
+      onStatus: (status) => print(status),
+      onError: (error) => print(error.errorMsg),
+    );
+
+    return available;
+  }
+
   // static Future<String> takeVoiceInput() async {
   //   String recognizedVoiceInputString = '';
 
@@ -80,13 +94,19 @@ class Dialogflow {
         synthesizeSpeechConfig: df.SynthesizeSpeechConfig.fromJson(data),
       ),
     );
+
+    Uint8List audioBytes = response.outputAudioBytes;
+
+    af.Audio.loadFromByteData(ByteData.view(audioBytes.buffer))
+      ..play()
+      ..dispose();
   }
 
   static Future<void> poseRecognition({
     @required Function(bool) onComplete,
   }) async {
     final df.DialogFlowtter dialogFlowtter = await df.DialogFlowtter.fromFile(
-      path: 'assets/dialogflow/sofia_auth.json',
+      path: 'assets/dialogflow/physio_auth.json',
       sessionId: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 
@@ -108,6 +128,11 @@ class Dialogflow {
         synthesizeSpeechConfig: df.SynthesizeSpeechConfig.fromJson(data),
       ),
     );
+    print("Recogninze");
+    Uint8List audioBytes = response.outputAudioBytes;
+    af.Audio.loadFromByteData(ByteData.view(audioBytes.buffer),
+        onComplete: () => onComplete(true))
+      ..play();
   }
 
   static Future<void> bodyVisible() async {
@@ -136,6 +161,7 @@ class Dialogflow {
     );
 
     Uint8List audioBytes = response.outputAudioBytes;
+    af.Audio.loadFromByteData(ByteData.view(audioBytes.buffer))..play();
   }
 
   static Future<df.DetectIntentResponse> getDialogflowResponse({
@@ -166,5 +192,18 @@ class Dialogflow {
     );
 
     return response;
+  }
+
+  static Future<void> playSpeech({
+    @required Uint8List audioBytes,
+    @required Function(bool) completionCallback,
+  }) async {
+    completionCallback(false);
+    print("Start");
+    // await audioPlayer.playBytes(audioBytes);
+
+    // audioPlayer.onPlayerCompletion.listen((event) {
+    completionCallback(true);
+    // });
   }
 }

@@ -150,7 +150,7 @@ class _DashboardState extends State<Dashboard> {
                                 value: "1",
                                 unit: "shot",
                                 time: "8-9AM",
-                                isDone: true,
+                                isDone: false,
                               )
                             ],
                           )),
@@ -196,42 +196,6 @@ class _DashboardState extends State<Dashboard> {
                               error: (message) => PosesListErrorWidget(),
                             );
                           },
-                        ),
-                      ),
-                      Container(
-                        child: ListView(
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                print("Pressed");
-                              },
-                              child: CardItems(
-                                image: Image.asset(
-                                  'assets/icons/sukhasana.png',
-                                  height: 35,
-                                  width: 35,
-                                ),
-                                title: "Sukhasana",
-                                value: "Easy",
-                                unit: "",
-                                color: Constants.lightYellow,
-                                progress: 0,
-                              ),
-                            ),
-                            CardItems(
-                              image: Image.asset(
-                                'assets/icons/Swimming.png',
-                              ),
-                              title: "Head Flip",
-                              value: "30",
-                              unit: "mins",
-                              color: Constants.lightBlue,
-                              progress: 0,
-                            ),
-                          ],
                         ),
                       ),
                     ],

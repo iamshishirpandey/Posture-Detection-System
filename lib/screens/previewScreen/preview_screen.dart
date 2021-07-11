@@ -4,7 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:physiotherapy/models/pose.dart';
 import 'package:physiotherapy/screens/preview_screen/camera_preview_widget.dart';
 import 'package:physiotherapy/screens/preview_screen/rotate_to_landspace_widget.dart';
+import 'package:physiotherapy/screens/recognizer/recognizer_screen.dart';
 import 'package:physiotherapy/utils/dialogFlow.dart';
+import 'package:physiotherapy/widgets/overlays/timer_overlay.dart';
 import 'package:physiotherapy/widgets/video_manager.dart';
 import 'package:tflite/tflite.dart';
 import 'package:wakelock/wakelock.dart';
@@ -70,25 +72,25 @@ class _PreviewScreenState extends State<PreviewScreen> {
         if (totalNumOfTimesPositive > 5) {
           _cameraController?.stopImageStream();
           print('READY');
-          // await Navigator.of(context)
-          //     .push(
-          //       PageRouteBuilder(
-          //         opaque: false,
-          //         pageBuilder: (context, _, __) => TimerOverlay(
-          //           pose: widget.pose,
-          //         ),
-          //       ),
-          //     )
-          //     .whenComplete(
-          //       () => Navigator.of(context).pushReplacement(
-          //         MaterialPageRoute(
-          //           builder: (context) => RecognizerScreen(
-          //             pose: widget.pose,
-          //             cameraController: _cameraController,
-          //           ),
-          //         ),
-          //       ),
-          //     );
+          await Navigator.of(context)
+              .push(
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (context, _, __) => TimerOverlay(
+                    pose: widget.pose,
+                  ),
+                ),
+              )
+              .whenComplete(
+                () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => RecognizerScreen(
+                      pose: widget.pose,
+                      cameraController: _cameraController,
+                    ),
+                  ),
+                ),
+              );
         }
       }
     }
@@ -107,8 +109,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
       }
 
       _cameraController.startImageStream((CameraImage image) {
-        // print('IMAGE: ${image.height} x ${image.width}');
-
         if (!isDetecting &&
             isInLandscape &&
             _cameraController.value.isStreamingImages) {
@@ -232,37 +232,5 @@ class _PreviewScreenState extends State<PreviewScreen> {
         ),
       ),
     );
-
-    // return Scaffold(
-    //   body: SafeArea(
-    //     child: Stack(
-    //       children: [
-    //         Container(
-    //           child: Center(
-    //             child: Text(
-    //               'Please make sure that your entire body is visible within the area.',
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
-    // return Scaffold(
-    //   body: SafeArea(
-    //     child: Column(
-    //       children: [
-    //         _videoController.value.initialized
-    //             ? Flexible(
-    //                 child: AspectRatio(
-    //                   aspectRatio: _videoController.value.aspectRatio,
-    //                   child: VideoPlayer(_videoController),
-    //                 ),
-    //               )
-    //             : Container(),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

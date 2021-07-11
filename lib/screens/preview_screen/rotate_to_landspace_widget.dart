@@ -10,7 +10,6 @@ class RotateToLandscapeWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset('assets/images/landspace_orientation.jpg'),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

@@ -4,6 +4,6 @@
   "volumeGainDb": 0,
   "voice": {
     "name": "en-US-Wavenet-E",
-    "ssmlGender": "SSML_VOICE_GENDER_FEMALE"
+    "ssmlGender": "SSML_VOICE_GENDER_MALE"
   }
 }
