@@ -10,6 +10,6 @@ class Storescreen extends StatefulWidget {
 class _StorescreenState extends State<Storescreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold();
   }
 }

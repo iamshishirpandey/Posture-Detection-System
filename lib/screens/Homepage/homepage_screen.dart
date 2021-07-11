@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:physiotherapy/screens/chatscreen/chatscreen.dart';
 
 import 'package:physiotherapy/screens/dashboard/dashboard.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:physiotherapy/screens/store/store_screen.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -13,9 +15,8 @@ class _HomepageState extends State<Homepage> {
 
   static List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
-    Dashboard(),
-    Dashboard(),
-    Dashboard()
+    Storescreen(),
+    ChatPageView(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -45,10 +46,6 @@ class _HomepageState extends State<Homepage> {
             BottomNavigationBarItem(
               icon: Icon(FlutterIcons.message1_ant),
               label: 'Message',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "Settings",
             ),
           ],
           currentIndex: _selectedIndex,

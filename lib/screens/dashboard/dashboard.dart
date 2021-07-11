@@ -102,16 +102,16 @@ class _DashboardState extends State<Dashboard> {
                           children: <Widget>[
                             CardMain(
                               image: AssetImage('assets/icons/heartbeat.png'),
-                              title: "Hearbeat",
-                              value: "66",
-                              unit: "bpm",
+                              title: "Activities",
+                              value: "1",
+                              unit: "daily",
                               color: Constants.lightGreen,
                             ),
                             CardMain(
                                 image: AssetImage('assets/icons/blooddrop.png'),
-                                title: "Blood Pressure",
-                                value: "66/123",
-                                unit: "mmHg",
+                                title: "Average Accuracy",
+                                value: "95.0",
+                                unit: "%",
                                 color: Constants.lightYellow)
                           ],
                         ),

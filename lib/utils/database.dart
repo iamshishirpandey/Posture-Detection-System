@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:physiotherapy/authentication/auth_client.dart';
+import 'package:physiotherapy/models/medicines.dart';
 import 'package:physiotherapy/models/pose.dart';
 import 'package:physiotherapy/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,5 +81,24 @@ class Database {
     });
     print("POSE: ${poses}");
     return poses;
+  }
+
+  /// For retrieving the poses from the database
+  retrieveMedications() async {
+    String uid = AuthenticationClient.presentUser.uid;
+
+    QuerySnapshot medicationQuery = await documentReference
+        .collection('poses')
+        .document(uid)
+        .collection('medicines')
+        .getDocuments();
+
+    List<Medicines> medicines = [];
+
+    medicationQuery.documents.forEach((doc) {
+      medicines.add(Medicines.fromJson(doc.data));
+    });
+    print(medicines);
+    return medicines;
   }
 }
