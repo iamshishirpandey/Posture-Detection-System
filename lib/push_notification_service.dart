@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'push_notification_message.dart';
+import 'utils/routes/routeConstants.dart';
 
 class PushNotificationService {
   final FirebaseMessaging _fcm;
@@ -71,15 +72,8 @@ class PushNotificationService {
 
     if (view != null) {
       //Change Navigation Routes
-      switch (view) {
-        case "BUSINESS_HOMESCREEN":
-          {
-            // state.currentState.pushNamed(RouteConstants.BUSINESS_HOMESCREEN);
-            break;
-          }
-        case "CHAT_LIST":
-          {}
-      }
+
+      state.currentState.pushNamed(RouteConstants.HOMEPAGE);
     }
   }
 }
