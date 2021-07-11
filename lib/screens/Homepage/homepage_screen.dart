@@ -3,7 +3,7 @@ import 'package:physiotherapy/screens/chatscreen/chatscreen.dart';
 
 import 'package:physiotherapy/screens/dashboard/dashboard.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:physiotherapy/screens/store/store_screen.dart';
+import 'package:physiotherapy/screens/store/screens/home/home_screen.dart';
 
 class Homepage extends StatefulWidget {
   @override
