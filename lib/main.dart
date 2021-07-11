@@ -1,9 +1,12 @@
 import 'package:camera/camera.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:physiotherapy/utils/routes/onGeneratedRoutes.dart';
 import 'package:physiotherapy/utils/routes/routeConstants.dart';
+
+import 'push_notification_service.dart';
 
 /// The list of camera types (mainly including: front and back)
 List<CameraDescription> cameras = [];
@@ -21,10 +24,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  MyApp({Key key}) : super(key: key);
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   Widget build(BuildContext context) {
+    final pushNotificationService =
+        PushNotificationService(_firebaseMessaging, context, navigatorKey);
+    pushNotificationService.initialise();
+
     return MaterialApp(
       title: 'Physio Therapy App',
       debugShowCheckedModeBanner: false,
