@@ -101,4 +101,63 @@ class Database {
     print(medicines);
     return medicines;
   }
+
+  uploadScore({
+    String poseName,
+    int stars,
+    double accuracy,
+    int timeInMilliseconds,
+  }) async {
+    String currentUid = AuthenticationClient.presentUser.uid;
+
+    DocumentReference documentReferencer = documentReference
+        .collection('user_info')
+        .document(currentUid)
+        .collection('score')
+        .document(poseName);
+
+    Map<String, dynamic> scoreData = <String, dynamic>{
+      "stars": stars,
+      "accuracy": accuracy,
+      "time": timeInMilliseconds,
+    };
+    print('DATA:\n$scoreData');
+
+    await documentReferencer.setData(scoreData).whenComplete(() {
+      print("Score added to the database!");
+    }).catchError((e) => print(e));
+
+    QuerySnapshot scoreDocs = await documentReference
+        .collection('user_info')
+        .document(currentUid)
+        .collection('score')
+        .getDocuments();
+
+    int totalStars = 0;
+    double totalAcuracy = 0.0;
+    int totalTimeInMilliseconds = 0;
+
+    scoreDocs.documents.forEach((doc) {
+      totalStars += doc.data['stars'];
+      totalAcuracy = totalAcuracy == 0.0
+          ? doc.data['accuracy']
+          : double.parse(
+              ((totalAcuracy + doc.data['accuracy']) / 2).toStringAsFixed(3));
+      // totalAcuracy = doc.data['accuracy'];
+      totalTimeInMilliseconds += doc.data['time'];
+    });
+
+    DocumentReference userReferencer =
+        documentReference.collection('user_info').document(currentUid);
+
+    Map<String, dynamic> totalScoreData = <String, dynamic>{
+      "stars": totalStars,
+      "accuracy": totalAcuracy,
+      "time": FieldValue.increment(totalTimeInMilliseconds),
+    };
+
+    await userReferencer.updateData(totalScoreData).whenComplete(() {
+      print('User total score updated!');
+    }).catchError((e) => print(e));
+  }
 }

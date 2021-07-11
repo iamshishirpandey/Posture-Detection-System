@@ -41,7 +41,7 @@ class Dialogflow {
 
   static Future<df.DetectIntentResponse> initialize() async {
     final df.DialogFlowtter dialogFlowtter = await df.DialogFlowtter.fromFile(
-      path: 'assets/dialogflow/physio_auth.json',
+      path: 'assets/dialogflow/api-7191939906398395148-855390.json',
       sessionId: '101', // use the timestamp as the session id
     );
 
@@ -72,7 +72,7 @@ class Dialogflow {
     @required String accuracy,
   }) async {
     final df.DialogFlowtter dialogFlowtter = await df.DialogFlowtter.fromFile(
-      path: 'assets/dialogflow/physio_auth.json',
+      path: 'assets/dialogflow/api-7191939906398395148-855390.json',
       sessionId: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 
@@ -106,7 +106,7 @@ class Dialogflow {
     @required Function(bool) onComplete,
   }) async {
     final df.DialogFlowtter dialogFlowtter = await df.DialogFlowtter.fromFile(
-      path: 'assets/dialogflow/physio_auth.json',
+      path: 'assets/dialogflow/api-7191939906398395148-855390.json',
       sessionId: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 
@@ -137,7 +137,7 @@ class Dialogflow {
 
   static Future<void> bodyVisible() async {
     final df.DialogFlowtter dialogFlowtter = await df.DialogFlowtter.fromFile(
-      path: 'assets/dialogflow/physio_auth.json',
+      path: 'assets/dialogflow/api-7191939906398395148-855390.json',
       sessionId: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 
@@ -168,7 +168,7 @@ class Dialogflow {
     @required String questionString,
   }) async {
     final df.DialogFlowtter dialogFlowtter = await df.DialogFlowtter.fromFile(
-      path: 'assets/dialogflow/physio_auth.json',
+      path: 'assets/dialogflow/api-7191939906398395148-855390.json',
       sessionId: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 

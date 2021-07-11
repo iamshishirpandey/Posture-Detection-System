@@ -47,6 +47,8 @@ dependencies:
   audiofileplayer: ^1.3.3
   speech_to_text: ^3.2.0
   firebase_messaging: ^6.0.16
+  simple_animations: ^2.5.1
+  supercharged: ^1.12.0
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:physiotherapy/models/pose.dart';
 import 'package:physiotherapy/utils/dialogFlow.dart';
+import 'package:physiotherapy/utils/score_overlay.dart';
 import 'package:physiotherapy/widgets/overlays/scoreviewer_widget.dart';
 import 'package:physiotherapy/widgets/video_manager.dart';
 // import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -170,16 +171,16 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
       if (_videoController.value.duration == _videoController.value.position &&
           !_videoController.value.isPlaying) {
         // Navigator.of(context).pop();
-        // Navigator.of(context).pushReplacement(
-        //   PageRouteBuilder(
-        //     opaque: false,
-        //     pageBuilder: (context, _, __) => ScoreOverlay(
-        //       startTime: _startTime,
-        //       totalAccuracy: _myPoseAcuracyTotal,
-        //       pose: widget.pose,
-        //     ),
-        //   ),
-        // );
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (context, _, __) => ScoreOverlay(
+              startTime: _startTime,
+              totalAccuracy: _myPoseAcuracyTotal,
+              pose: widget.pose,
+            ),
+          ),
+        );
         print('Accuracy each: $_myPoseAcuracy, total: $_myPoseAcuracyTotal');
         // _videoController?.dispose();
         // SystemChrome.setPreferredOrientations([
