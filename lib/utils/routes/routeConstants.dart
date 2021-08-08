@@ -5,4 +5,5 @@ class RouteConstants {
   static const String HOMEPAGE = "HOMEPAGE";
   static const String POSEDESCRIPTION = "POSEDESCRIPTION";
   static const String PREVIEWSCREEN = "PREVIEWSCREEN";
+  static const String PRODUCTDESCRIPTION = "PRODUCTDESCRIPTION";
 }

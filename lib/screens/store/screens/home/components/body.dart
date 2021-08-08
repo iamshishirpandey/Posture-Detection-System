@@ -3,12 +3,13 @@ import 'package:physiotherapy/authentication/auth_client.dart';
 import 'package:physiotherapy/screens/store/constants.dart';
 import 'package:physiotherapy/screens/store/models/Product.dart';
 import 'package:physiotherapy/utils/database.dart';
+import 'package:physiotherapy/utils/routes/routeConstants.dart';
 
 import 'categorries.dart';
 import 'item_card.dart';
 
 class Body extends StatelessWidget {
-    String uid = AuthenticationClient.presentUser.uid;
+  String uid = AuthenticationClient.presentUser.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +44,9 @@ class Body extends StatelessWidget {
                 itemBuilder: (context, index) => ItemCard(
                       product: products[index],
                       press: () => {
-                        Database()
-                            .placeOrder(productName: products[index].title,
-                            uid: uid
-                            )
+                        Navigator.pushNamed(
+                            context, RouteConstants.PRODUCTDESCRIPTION,
+                            arguments: products[index])
                       },
                       // press: () => Navigator.push(
                       //     context,

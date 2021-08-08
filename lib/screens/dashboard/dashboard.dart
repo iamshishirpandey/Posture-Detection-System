@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:physiotherapy/authentication/auth_client.dart';
 import 'package:physiotherapy/models/user.dart';
@@ -14,6 +15,8 @@ import 'package:physiotherapy/widgets/dashboard_widgets/poses_list/poses_list_in
 import 'package:physiotherapy/widgets/dashboard_widgets/poses_list/poses_list_loading_widget.dart';
 import 'package:physiotherapy/widgets/dashboard_widgets/poses_list/poses_list_widget.dart';
 
+import '../../local_notifications_helper.dart';
+
 class Dashboard extends StatefulWidget {
   const Dashboard({Key key}) : super(key: key);
 
@@ -23,14 +26,26 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   Future<User> userData = Database().retrieveUserInfo();
+  final notifications = FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
     super.initState();
 
-    // imageUrl = userData.imageUrl;
-    // userName = userData.userName;
+    final settingsAndroid = AndroidInitializationSettings('app_icon');
+    final settingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: (id, title, body, payload) =>
+            onSelectNotification(payload));
+
+    notifications.initialize(
+        InitializationSettings(settingsAndroid, settingsIOS),
+        onSelectNotification: onSelectNotification);
   }
+
+  Future onSelectNotification(String payload) async => await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Dashboard()),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -158,12 +173,17 @@ class _DashboardState extends State<Dashboard> {
                       SizedBox(height: 50),
 
                       // Scheduled Activities
-                      Text(
-                        "SCHEDULED ACTIVITIES",
-                        style: TextStyle(
-                            color: Constants.textPrimary,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold),
+                      InkWell(
+                        onTap: () => showOngoingNotification(notifications,
+                            title: 'Medicine Time',
+                            body: 'You have morphin to take! :)'),
+                        child: Text(
+                          "SCHEDULED ACTIVITIES",
+                          style: TextStyle(
+                              color: Constants.textPrimary,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
 
                       SizedBox(height: 20),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:physiotherapy/screens/Homepage/homepage_screen.dart';
 import 'package:physiotherapy/screens/dashboard/dashboard.dart';
+import 'package:physiotherapy/screens/details/details_screen.dart';
 import 'package:physiotherapy/screens/login/login_screen.dart';
 import 'package:physiotherapy/screens/poses/pose_screen.dart';
 import 'package:physiotherapy/screens/previewScreen/preview_screen.dart';
@@ -32,6 +33,13 @@ Route onGenerateRoute(RouteSettings settings) {
           routeName: settings.name,
           page: EachPosePage(
             pose: settings.arguments,
+          ));
+      break;
+    case RouteConstants.PRODUCTDESCRIPTION:
+      page = FadeInRoute(
+          routeName: settings.name,
+          page: DetailsScreen(
+            product: settings.arguments,
           ));
       break;
     default:
