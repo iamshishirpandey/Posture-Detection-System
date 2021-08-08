@@ -67,7 +67,7 @@ class _TimerOverlayState extends State<TimerOverlay> {
       });
     }
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.8),
+      backgroundColor: Colors.orange.withOpacity(0.8),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -80,16 +80,16 @@ class _TimerOverlayState extends State<TimerOverlay> {
               Expanded(
                 child: Stack(
                   children: [
-                    SizedBox(
-                      height: screenSize.height,
-                      width: screenSize.height,
-                      child: FlareActor(
-                        "assets/rive/loading_1.flr",
-                        // alignment: Alignment.center,
-                        fit: BoxFit.fitWidth,
-                        animation: "run",
-                      ),
-                    ),
+                    // SizedBox(
+                    //   height: screenSize.height,
+                    //   width: screenSize.height,
+                    //   child: FlareActor(
+                    //     "assets/rive/loading_1.flr",
+                    //     // alignment: Alignment.center,
+                    //     fit: BoxFit.fitWidth,
+                    //     animation: "run",
+                    //   ),
+                    // ),
                     Positioned(
                       top: screenSize.height * 0.35,
                       left: screenSize.height / 2 - 20,
@@ -98,7 +98,7 @@ class _TimerOverlayState extends State<TimerOverlay> {
                         style: TextStyle(
                           fontSize: 100.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     )
@@ -122,11 +122,11 @@ class _TimerOverlayState extends State<TimerOverlay> {
                       Text(
                         _currentPose.title[0].toUpperCase() +
                             _currentPose.title.substring(1) +
-                            ' pose',
+                            '',
                         style: TextStyle(
                             fontSize: 40.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.lightBlue),
+                            color: Colors.black),
                       ),
                     ],
                   ),

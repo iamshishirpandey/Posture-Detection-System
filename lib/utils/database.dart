@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:physiotherapy/authentication/auth_client.dart';
 import 'package:physiotherapy/models/medicines.dart';
 import 'package:physiotherapy/models/pose.dart';
 import 'package:physiotherapy/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../main.dart';
 
 /// The main Firestore collection.
 final CollectionReference mainCollection =
@@ -55,6 +58,44 @@ class Database {
     }
 
     return userData;
+  }
+
+  /// For storing user data on the database
+  Future<User> placeOrder({
+    String uid,
+    String productName,
+  }) async {
+    User userData;
+
+    DocumentReference documentReferencer =
+        documentReference.collection('orders').document(uid);
+
+    DocumentSnapshot userDocSnapshot = await documentReferencer.get();
+    bool doesDocumentExist = userDocSnapshot.exists;
+    print('User info exists: $doesDocumentExist');
+
+    Map<String, dynamic> data = <String, dynamic>{
+      "uid": uid,
+      "product": productName
+    };
+    print('DATA:\n$data');
+
+    userData = User.fromJson(data);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (doesDocumentExist) {
+      await documentReferencer.updateData(data).whenComplete(() {
+        print("Order updated in the database");
+      }).catchError((e) => print(e));
+    } else {
+      await documentReferencer.setData(data).whenComplete(() {
+        print("Order Info added to the database");
+      }).catchError((e) => print(e));
+    }
+    ScaffoldMessenger.of(navigatorKey.currentContext).showSnackBar(SnackBar(
+      content: Text("Order Placed Successfully!"),
+    ));
   }
 
   /// For retrieving the user info from the database
