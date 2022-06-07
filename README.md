@@ -1,6 +1,7 @@
 # physiotherapy
 
-A new Flutter project.
+A flutter project we exectued for Provathon 2021 and got selected for the finals.
+
 
 ## Getting Started
 
